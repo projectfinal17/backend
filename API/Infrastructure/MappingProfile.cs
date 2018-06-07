@@ -13,6 +13,7 @@ namespace API.Infrastructure
             CreateMap<RoleEntity, RoleDto>();
             CreateMap<UserEntity, UserDto>();
             CreateMap<ProductCategoryEntity, ProductCategoryDto>();
+            CreateMap<ProductEntity, ProductDto>();
         }
     }
 }

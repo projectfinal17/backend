@@ -17,18 +17,18 @@ namespace API.Controllers
     public class ProductCategoryController : GenericController<ProductCategoryEntity, ProductCategoryDto, ProductCategoryForCreationDto>
     {
         private readonly DatabaseContext _context;
-        private readonly IProductCategoryRepository _productRepository;
+        private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly DbSet<ProductCategoryEntity> _entity;
 
-        public ProductCategoryController(IProductCategoryRepository productRepository, DatabaseContext context) : base(productRepository, context)
+        public ProductCategoryController(IProductCategoryRepository productCategoryRepository, DatabaseContext context) : base(productCategoryRepository, context)
         {
-            _productRepository = productRepository;
+            _productCategoryRepository = productCategoryRepository;
             _context = context;
             _entity = _context.Set<ProductCategoryEntity>();
 
         }
 
-        public async Task<IActionResult> GetProductsAsync(
+        public async Task<IActionResult> GetProductCategoryAsync(
              [FromQuery] int offset,
              [FromQuery] int limit,
              [FromQuery] string keyword,
@@ -38,7 +38,7 @@ namespace API.Controllers
             IQueryable<ProductCategoryEntity> querySearch = _entity.Where(x => x.Code.Contains(keyword)
             || x.Name.Contains(keyword));
 
-            var handledData = await _productRepository.GetListAsync(offset, limit, keyword, sortOptions, filterOptions, querySearch);
+            var handledData = await _productCategoryRepository.GetListAsync(offset, limit, keyword, sortOptions, filterOptions, querySearch);
 
             var items = handledData.Items.ToArray();
             int totalSize = handledData.TotalSize;

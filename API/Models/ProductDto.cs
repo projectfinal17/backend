@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Models
 {
-    public class ProductForCreationDto
+    public class ProductDto : BaseDto
     {
         [Required(ErrorMessage = "You must provide Code")]
         public string Code { get; set; }
@@ -24,7 +24,14 @@ namespace API.Models
         [Required(ErrorMessage = "You must provide Description")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "You must provide CreatedDate")]
+        public DateTime CreatedDate { get; set; }
+
+        public bool IsActive { get; set; }
+
         public Guid ProductCategoryId { get; set; }
+
+        public ProductCategoryDto ProductCategory { get; set; }
 
     }
 }

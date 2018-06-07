@@ -98,6 +98,7 @@ namespace API
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
 
             services.AddScoped(typeof(IGenericRepository<,,>), typeof(GenericRepository<,,>));
             services.AddScoped(typeof(IAccessiblePageRepository), typeof(AccessiblePageRepository));
@@ -146,9 +147,9 @@ namespace API
         private static async Task CreateDefaultRoles(RoleManager<RoleEntity> roleManager)
         {
             await roleManager.CreateAsync(new RoleEntity("OWNER"));
-            await roleManager.CreateAsync(new RoleEntity("MANAGER"));
-            await roleManager.CreateAsync(new RoleEntity("SALESMAN"));
-            await roleManager.CreateAsync(new RoleEntity("WAREHOUSE"));
+            await roleManager.CreateAsync(new RoleEntity("USER"));
+            //await roleManager.CreateAsync(new RoleEntity("SALESMAN"));
+            //await roleManager.CreateAsync(new RoleEntity("WAREHOUSE"));
         }
         private static async Task CreateDefaultPages(DatabaseContext context)
         {

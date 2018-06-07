@@ -26,7 +26,7 @@ namespace API.Services
             var existedProductCategory = _entity.FirstOrDefault(p => p.Code == creationDto.Code);
             if (existedProductCategory != null)
             {
-                throw new InvalidOperationException("Product has Code which is existed on database");
+                throw new InvalidOperationException("ProductCategory has Code which is existed on database");
             }
 
             //lấy các dữ liệu vừa nhập vào entity

@@ -17,6 +17,8 @@ namespace API.Controllers
         private readonly IGenericRepository<TEntity, TDto, TCreationDto> _genericRepository;
         private readonly DatabaseContext _context;
         private readonly DbSet<TEntity> _entities;
+        private IProductRepository productCategoryRepository;
+        private DatabaseContext context;
 
         public GenericController(IGenericRepository<TEntity, TDto, TCreationDto> genericRepository, DatabaseContext context )
         {
@@ -24,7 +26,7 @@ namespace API.Controllers
             _entities = _context.Set<TEntity>();
             _genericRepository = genericRepository;
         }
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEntityAsync(Guid id)
         {

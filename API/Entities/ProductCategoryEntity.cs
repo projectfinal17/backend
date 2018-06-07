@@ -11,6 +11,7 @@ namespace API.Entities
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Code { get; set; }
 
         ICollection<ProductEntity> Products { get; set; }

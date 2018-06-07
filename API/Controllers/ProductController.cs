@@ -1,42 +1,75 @@
 ﻿using API.Entities;
+using API.Infrastructure;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
 {
     [Route("Products")]
     [Authorize]
-    public class ProductController : Controller
+    public class ProductController : GenericController<ProductEntity,ProductDto,ProductForCreationDto>
     {
         private readonly DatabaseContext _context;
+        private readonly IProductRepository _productRepository;
+        private readonly DbSet<ProductEntity> _entity;
 
-        public ProductController(DatabaseContext context)
+        public ProductController(IProductRepository productRepository, DatabaseContext context) : base(productRepository, context)
         {
+            _productRepository = productRepository;
             _context = context;
+            _entity = _context.Set<ProductEntity>();
+
         }
 
-        public async Task<IActionResult> CreateProductAsync([FromBody] ProductForCreationDto productForCreationDto)
+        public async Task<IActionResult> GetProductsAsync(
+             [FromQuery] int offset,
+             [FromQuery] int limit,
+             [FromQuery] string keyword,
+             [FromQuery] SortOptions<ProductDto, ProductEntity> sortOptions,
+             [FromQuery] FilterOptions<ProductDto, ProductEntity> filterOptions)
         {
-            ProductEntity productEntity = new ProductEntity
+            IQueryable<ProductEntity> querySearch = _entity.Where(x => x.Code.Contains(keyword)
+            || x.Name.Contains(keyword));
+
+            var handledData = await _productRepository.GetListAsync(offset, limit, keyword, sortOptions, filterOptions, querySearch);
+
+            var items = handledData.Items.ToArray();
+            int totalSize = handledData.TotalSize;
+
+            return Ok(new { data = items, totalSize });
+        }
+        [HttpGet]
+        [Route("CheckCodeExist")]
+        public async Task<Boolean> CheckCodeExistAsync([FromQuery] string code)
+        {
+            var entity = await _entity.SingleOrDefaultAsync(r => r.Code == code);
+            if (entity == null)
             {
-                Name = productForCreationDto.Name,
-                ProductCategoryId = productForCreationDto.ProductCategoryId
-            };
+                return false;
+            }
+            else
+                return true;
+        }
+
+        [HttpPut("isActive/{id}/{isActive}")]
+        public async Task<IActionResult> ChangeActiveStatus(Guid id, bool isActive)
+        {
             try
             {
-                await _context.Products.AddAsync(productEntity);
-
-                await _context.SaveChangesAsync();
-
-                return Created("", productEntity.Id);
-            }catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
+                var returnId = await _productRepository.ChangeActiveStatusAsync(id, isActive);
+                return Ok(new { id = returnId });
             }
-         
+            catch (Exception ex)
+            {
+                return BadRequest(new ExceptionResponse(ex.Message));
+            }
         }
+
     }
 }
