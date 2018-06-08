@@ -18,7 +18,7 @@ namespace API.Entities
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
 
-       
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -99,6 +99,7 @@ namespace API
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IUserCustomerRepository, UserCutomerRepository>();
 
             services.AddScoped(typeof(IGenericRepository<,,>), typeof(GenericRepository<,,>));
             services.AddScoped(typeof(IAccessiblePageRepository), typeof(AccessiblePageRepository));
