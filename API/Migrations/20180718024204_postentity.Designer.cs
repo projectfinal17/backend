@@ -8,8 +8,8 @@ using API.Entities;
 namespace API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180116040636_User_AddIsActiveField")]
-    partial class User_AddIsActiveField
+    [Migration("20180718024204_postentity")]
+    partial class postentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,6 +48,83 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Demos");
+                });
+
+            modelBuilder.Entity("API.Entities.PostEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Image")
+                        .IsRequired();
+
+                    b.Property<string>("Tittle")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductCategoryEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("ImageUrlList")
+                        .IsRequired();
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<Guid>("ProductCategoryId");
+
+                    b.Property<double>("SalePrice");
+
+                    b.Property<double>("WholeSalePrice");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("API.Entities.RoleEntity", b =>
@@ -330,6 +407,13 @@ namespace API.Migrations
                         .IsUnique();
 
                     b.ToTable("OpenIddictTokens");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductEntity", b =>
+                {
+                    b.HasOne("API.Entities.ProductCategoryEntity", "ProductCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductCategoryId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<System.Guid>", b =>

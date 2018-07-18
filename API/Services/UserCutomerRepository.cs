@@ -4,8 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Infrastructure;
 using API.Models;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +65,63 @@ namespace API.Services
             await _userManager.UpdateAsync(newUser);
 
             return newUser.Id;
+        }
+
+        public async Task<PagedResults<UserDto>> GetListAsync(int offset, int limit, string keyword,
+            SortOptions<UserDto, UserEntity> sortOptions, FilterOptions<UserDto, UserEntity> filterOptions,
+            IQueryable<UserEntity> querySearch
+            )
+        {
+            IQueryable<UserEntity> query = _entity;
+            query = sortOptions.Apply(query);
+            query = filterOptions.Apply(query);
+            if (keyword != null)
+            {
+                query = querySearch;
+            }
+
+            var size = await query.CountAsync();
+
+            var items = await query
+                .Skip(offset * limit)
+                .Take(limit)
+                .ToArrayAsync();
+
+            List<UserDto> returnUserList = new List<UserDto>();
+
+            foreach (UserEntity user in items)
+            {
+                var roleNames = await _userManager.GetRolesAsync(user);
+
+                var userDto = new UserDto
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    JobTitle = user.JobTitle,
+                    IsActive = user.IsActive,
+                    RoleNames = roleNames
+                };
+                returnUserList.Add(userDto);
+            }
+
+            return new PagedResults<UserDto>
+            {
+                Items = returnUserList,
+                TotalSize = size
+            };
+
+        }
+
+        public async Task<UserDto> GetCurrentUser()
+        {
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            var roleNames = await _userManager.GetRolesAsync(user);
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.RoleNames = roleNames;
+            return userDto;
         }
     }
 }

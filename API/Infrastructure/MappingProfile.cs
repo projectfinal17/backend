@@ -14,6 +14,8 @@ namespace API.Infrastructure
             CreateMap<UserEntity, UserDto>();
             CreateMap<ProductCategoryEntity, ProductCategoryDto>();
             CreateMap<ProductEntity, ProductDto>();
+            CreateMap<PostEntity, PostDto>();
+
         }
     }
 }

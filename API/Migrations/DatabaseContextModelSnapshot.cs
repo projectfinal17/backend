@@ -49,6 +49,33 @@ namespace API.Migrations
                     b.ToTable("Demos");
                 });
 
+            modelBuilder.Entity("API.Entities.PostEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Image")
+                        .IsRequired();
+
+                    b.Property<string>("Tittle")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("API.Entities.ProductCategoryEntity", b =>
                 {
                     b.Property<Guid>("Id")

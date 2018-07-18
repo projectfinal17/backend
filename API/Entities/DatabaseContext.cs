@@ -17,6 +17,8 @@ namespace API.Entities
         public DbSet<AccessiblePageEntity> AccessiblePages { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
+        public DbSet<PostEntity> Posts { get; set; }
+
 
 
 

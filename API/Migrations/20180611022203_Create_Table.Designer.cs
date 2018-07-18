@@ -8,8 +8,8 @@ using API.Entities;
 namespace API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180523032603_addCodeProductCategory")]
-    partial class addCodeProductCategory
+    [Migration("20180611022203_Create_Table")]
+    partial class Create_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,7 +55,8 @@ namespace API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -70,10 +71,27 @@ namespace API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("ImageUrlList")
+                        .IsRequired();
+
+                    b.Property<bool>("IsActive");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.Property<Guid>("ProductCategoryId");
+
+                    b.Property<double>("SalePrice");
+
+                    b.Property<double>("WholeSalePrice");
 
                     b.HasKey("Id");
 
