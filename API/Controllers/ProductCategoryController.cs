@@ -56,6 +56,33 @@ namespace API.Controllers
             return Code;
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ListProductCategory")]
+        public async Task<IActionResult> GetListForCustomerAsync(
+         [FromQuery] int offset,
+         [FromQuery] int limit,
+         [FromQuery] SortOptions<ProductCategoryDto, ProductCategoryEntity> sortOptions,
+         [FromQuery] FilterOptions<ProductCategoryDto, ProductCategoryEntity> DemoOptions,
+         [FromQuery] string keyword,
+         [FromQuery] bool isSoldOut = false
+         )
+        {
+            IQueryable<ProductCategoryEntity> querySearch = _entity;
+            if (keyword != null)
+            {
+                querySearch = _entity.Where(
+                x => x.Name.Contains(keyword)
+                || x.Code.Contains(keyword)
+                );
+            }
+
+            var handledData = await _productCategoryRepository.GetListAsync(offset, limit, keyword, sortOptions, DemoOptions, querySearch);
+            var items = handledData.Items.ToArray();
+            int totalSize = handledData.TotalSize;
+            return Ok(new { data = items, totalSize });
+        }
+
 
     }
 }

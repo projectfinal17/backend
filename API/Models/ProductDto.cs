@@ -18,9 +18,6 @@ namespace API.Models
         [Required(ErrorMessage = "You must provide SalePrice")]
         public double SalePrice { get; set; }
 
-        [Required(ErrorMessage = "You must provide WholeSalePrice")]
-        public double WholeSalePrice { get; set; }
-
         [Required(ErrorMessage = "You must provide Description")]
         public string Description { get; set; }
 

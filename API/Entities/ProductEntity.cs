@@ -23,9 +23,6 @@ namespace API.Entities
         public double SalePrice { get; set; }
 
         [Required]
-        public double WholeSalePrice { get; set; }
-
-        [Required]
         public string Description { get; set; }
 
         [Required]
