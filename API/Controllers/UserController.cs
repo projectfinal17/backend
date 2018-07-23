@@ -117,6 +117,21 @@ namespace API.Controllers
                 return BadRequest(new ExceptionResponse(ex.Message));
             }
         }
+
+        [HttpPut("isActive/{id}/{isActive}")]
+        public async Task<IActionResult> ChangeActiveStatus(Guid id, bool isActive)
+        {
+            try
+            {
+                var returnId = await _userRepository.ChangeActiveStatusAsync(id, isActive);
+                return Ok(new { id = returnId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ExceptionResponse(ex.Message));
+            }
+        }
+
         [HttpPut]
         [Route("password/{id}")]
         public async virtual Task<IActionResult> ResetPassword(Guid id, [FromBody] UserForResetPasswordDto resetPasswordDto)

@@ -35,6 +35,10 @@ namespace API.Models
         [Filterable]
         public bool IsActive { get; set; }
 
+        [Sortable]
+        [Filterable]
+        public string Address { get; set; }
+
 
     }
 }

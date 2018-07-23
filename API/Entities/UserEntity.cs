@@ -13,5 +13,7 @@ namespace API.Entities
 
         public bool IsActive { get; set; }
 
+        public string Address { get; set; }
+
     }
 }

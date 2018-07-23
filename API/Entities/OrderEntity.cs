@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace API.Entities
 {
-    public class BillEntity : BaseEntity
+    public class OrderEntity : BaseEntity
     {
         [Required]
         public string Code { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }
-
-        [Required]
-        public int Quantity { get; set; }
 
         [Required]
         public string Address { get; set; }

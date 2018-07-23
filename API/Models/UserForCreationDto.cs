@@ -25,6 +25,9 @@ namespace API.Models
         [Required(ErrorMessage = "You should provide a RoleNames value.")]
         public IEnumerable<string> RoleNames { get; set; }
 
+        [Required(ErrorMessage = "You should provide a Address value.")]
+        public string Address { get; set; }
+
 
     }
 }

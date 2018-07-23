@@ -24,5 +24,8 @@ namespace API.Services
 
         Task<Guid> ResetPassword(Guid id, UserForResetPasswordDto resetPasswordDto);
 
+        Task<Guid> ChangeActiveStatusAsync(Guid id, bool isActive);
+
+
     }
 }

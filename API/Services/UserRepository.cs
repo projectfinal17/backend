@@ -192,5 +192,29 @@ namespace API.Services
             }
             return id;
         }
+
+        public async Task<Guid> ChangeActiveStatusAsync(Guid id, bool isActive)
+        {
+            var user = await _entity.SingleOrDefaultAsync(p => p.Id == id);
+            if (user == null)
+            {
+                throw new Exception("Can not find product with id=" + id);
+            }
+            //check isActive coincident
+            if (user.IsActive == isActive)
+            {
+                throw new Exception("Can not change active status!");
+            }
+            user.IsActive = isActive;
+
+            _entity.Update(user);
+            var updated = await _context.SaveChangesAsync();
+            if (updated < 1)
+            {
+                throw new InvalidOperationException("Database context could not updated user.");
+            }
+
+            return user.Id;
+        }
     }
 }
