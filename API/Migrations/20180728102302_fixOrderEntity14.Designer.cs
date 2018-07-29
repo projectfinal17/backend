@@ -8,9 +8,10 @@ using API.Entities;
 namespace API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20180728102302_fixOrderEntity14")]
+    partial class fixOrderEntity14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -65,8 +66,6 @@ namespace API.Migrations
                     b.Property<double>("TotalMoney");
 
                     b.Property<Guid>("UserId");
-
-                    b.Property<bool>("isDeleted");
 
                     b.HasKey("Id");
 

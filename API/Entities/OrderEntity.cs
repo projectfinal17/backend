@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Entities
 {
-    public class OrderEntity : BaseEntity
+    public class OrderEntity : CodeBaseEntity
     {
-        [Required]
-        public string Code { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }
@@ -17,8 +16,7 @@ namespace API.Entities
         [Required]
         public string Address { get; set; }
 
-        [Required]
-        public string ProductList { get; set; }
+        public virtual List<OrderItemEntity> OrderItems { get; set; }
 
         [Required]
         public double TotalMoney { get; set; }
@@ -27,11 +25,10 @@ namespace API.Entities
         public Guid UserId { get; set; }
 
         [Required]
-        public UserEntity User { get; set; }
+        public virtual UserEntity User { get; set; }
 
-        public Guid ProductId { get; set; }
-
-        ICollection<ProductEntity> Products { get; set; }
+        [Required]
+        public bool isDeleted { get; set; }
 
 
     }

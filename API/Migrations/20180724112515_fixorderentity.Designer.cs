@@ -8,9 +8,10 @@ using API.Entities;
 namespace API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20180724112515_fixorderentity")]
+    partial class fixorderentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -62,41 +63,18 @@ namespace API.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
+                    b.Property<string>("ProductIdList")
+                        .IsRequired();
+
                     b.Property<double>("TotalMoney");
 
                     b.Property<Guid>("UserId");
-
-                    b.Property<bool>("isDeleted");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("API.Entities.OrderItemEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Amount");
-
-                    b.Property<Guid>("OrderId");
-
-                    b.Property<Guid>("ProductId");
-
-                    b.Property<double>("SalePrice");
-
-                    b.Property<double>("TotalMoney");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("API.Entities.PostEntity", b =>
@@ -463,17 +441,6 @@ namespace API.Migrations
                     b.HasOne("API.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("API.Entities.OrderItemEntity", b =>
-                {
-                    b.HasOne("API.Entities.OrderEntity", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("API.Entities.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("API.Entities.ProductEntity", b =>

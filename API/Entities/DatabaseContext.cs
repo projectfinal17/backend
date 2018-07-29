@@ -18,7 +18,8 @@ namespace API.Entities
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
         public DbSet<PostEntity> Posts { get; set; }
-
+        public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<OrderItemEntity> OrderItems { get; set; }
 
 
 

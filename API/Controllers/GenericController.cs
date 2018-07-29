@@ -17,8 +17,6 @@ namespace API.Controllers
         private readonly IGenericRepository<TEntity, TDto, TCreationDto> _genericRepository;
         private readonly DatabaseContext _context;
         private readonly DbSet<TEntity> _entities;
-        private IProductRepository productCategoryRepository;
-        private DatabaseContext context;
 
         public GenericController(IGenericRepository<TEntity, TDto, TCreationDto> genericRepository, DatabaseContext context )
         {

@@ -8,9 +8,10 @@ using API.Entities;
 namespace API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20180725084833_fixOrderEntityandaddOrderItemEnitty")]
+    partial class fixOrderEntityandaddOrderItemEnitty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -66,8 +67,6 @@ namespace API.Migrations
 
                     b.Property<Guid>("UserId");
 
-                    b.Property<bool>("isDeleted");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -84,8 +83,6 @@ namespace API.Migrations
 
                     b.Property<Guid>("OrderId");
 
-                    b.Property<Guid>("ProductId");
-
                     b.Property<double>("SalePrice");
 
                     b.Property<double>("TotalMoney");
@@ -93,8 +90,6 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
                 });
@@ -470,10 +465,6 @@ namespace API.Migrations
                     b.HasOne("API.Entities.OrderEntity", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId");
-
-                    b.HasOne("API.Entities.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("API.Entities.ProductEntity", b =>
