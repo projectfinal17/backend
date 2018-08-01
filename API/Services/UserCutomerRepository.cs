@@ -51,7 +51,7 @@ namespace API.Services
 
             }
 
-            newUser.UserName = creationDto.Email;
+            newUser.UserName = creationDto.UserName;
             //RoleName tam thoi khong gan = User duoc, nen tren giao dien tao TK KH cua de ngam la 1 mang "Rolenames" : ["USER"]
             await _userManager.CreateAsync(newUser, creationDto.Password);
             foreach (string roleName in creationDto.RoleNames)

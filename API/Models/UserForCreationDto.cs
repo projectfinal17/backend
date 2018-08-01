@@ -5,6 +5,8 @@ namespace API.Models
 {
     public class UserForCreationDto
     {
+        [Required(ErrorMessage = "You must provide a UserName value.")]
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "You must provide a FirstName value.")]
         public string FirstName { get; set; }

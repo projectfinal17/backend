@@ -45,16 +45,18 @@ namespace API.Controllers
 
             return Ok(new { data = items, totalSize });
         }
-        
-        //[HttpGet]
-        //[Route("getListCodeProductCategories")]
-        //public async Task<string[]> GeListAsync_Code()
-        //{
-        //    IQueryable<ProductCategoryEntity> query = _entity;
-        //    var totalSize = await query.CountAsync();
-        //    string[] Code = await _entity.Select(column => column.Code).ToArrayAsync();
-        //    return Code;
-        //}
+
+        [AllowAnonymous]
+        [Route("ListPostAll")]
+        public async Task<IActionResult> GetAllForCustomerAsync()
+        {
+            var handledData = await _postRepository.GetAllAsync();
+
+            var items = handledData.Items.ToArray();
+            int totalSize = handledData.TotalSize;
+
+            return Ok(new { data = items, totalSize });
+        }
 
 
     }

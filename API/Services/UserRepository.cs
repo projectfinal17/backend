@@ -72,6 +72,7 @@ namespace API.Services
                     UserName = user.UserName,
                     JobTitle = user.JobTitle,
                     IsActive = user.IsActive,
+                    Address = user.Address,
                     RoleNames = roleNames
                 };
                 returnUserList.Add(userDto);
