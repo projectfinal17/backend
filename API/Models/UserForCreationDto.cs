@@ -25,6 +25,8 @@ namespace API.Models
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "You should provide a RoleNames value.")]
+        public string RoleName { get; set; }
+        
         public IEnumerable<string> RoleNames { get; set; }
 
         [Required(ErrorMessage = "You should provide a Address value.")]

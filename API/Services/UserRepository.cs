@@ -17,6 +17,8 @@ namespace API.Services
     {
         private DatabaseContext _context;
         private DbSet<UserEntity> _entity;
+        private DbSet<RoleEntity> _roleEntity;
+        
         private IMapper _mapper;
         private readonly UserManager<UserEntity> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -28,6 +30,7 @@ namespace API.Services
             _userManager = userManager;
             _context = context;
             _entity = _context.Set<UserEntity>();
+            _roleEntity = _context.Set<RoleEntity>();
             _httpContextAccessor = httpContextAccessor;
 
             var config = new MapperConfiguration(cfg => {
@@ -73,7 +76,8 @@ namespace API.Services
                     JobTitle = user.JobTitle,
                     IsActive = user.IsActive,
                     Address = user.Address,
-                    RoleNames = roleNames
+                    RoleNames = roleNames,
+                    PhoneNumber = user.PhoneNumber
                 };
                 returnUserList.Add(userDto);
             }
@@ -101,7 +105,7 @@ namespace API.Services
 
             }
 
-            newUser.UserName = creationDto.Email;
+            newUser.UserName = creationDto.UserName;
 
             await _userManager.CreateAsync(newUser, creationDto.Password);
 
@@ -216,6 +220,25 @@ namespace API.Services
             }
 
             return user.Id;
+        }
+
+        public async Task<Guid> DeleteAsync(Guid id)
+        {
+            var entity = await _entity.SingleOrDefaultAsync(r => r.Id == id);
+            if (entity == null)
+            {
+                throw new InvalidOperationException("Can not find object with this Id.");
+            }
+            var roleNames = await _userManager.GetRolesAsync(entity);
+            await _userManager.RemoveFromRolesAsync(entity, roleNames);
+            var deleted = await _userManager.DeleteAsync(entity);
+            //_entity.Remove(entity);
+            //var deleted = await _context.SaveChangesAsync();
+            if (!deleted.Succeeded)
+            {
+                throw new InvalidOperationException("Database context could not delete data.");
+            }
+            return id;
         }
     }
 }

@@ -110,5 +110,12 @@ namespace API.Controllers
             return Ok(new { data = items, totalSize });
         }
 
+        [Route("GetDetailAsync/{id}")]
+        public async Task<IActionResult> GetDetailAsync(Guid id)
+        {
+            var handledData = await _productRepository.GetSingleAsync(id);
+
+            return Ok(new { data = handledData });
+        }
     }
 }

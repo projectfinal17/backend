@@ -45,7 +45,7 @@ namespace API.Controllers
 
             return Ok(new { data = items, totalSize });
         }
-        
+
         [HttpGet("listOrderUser")]
         public async Task<IActionResult> GetCustomerOrderASC()
         {
@@ -78,7 +78,13 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("{date}")]
+        public ActionResult GetIncomeInMonth(DateTime date)
+        {
+            double handledData = _genericRepository.InComeNow(date);
+            return Json(new { amount = handledData});
 
+        }
     }
 
 }

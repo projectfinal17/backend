@@ -21,6 +21,6 @@ namespace API.Services
         Task<PagedResults<OrderDto>> GetCustomerOrder();
         Task<Guid> ChangeActiveStatusAsync(Guid id, bool isDeleted);
 
-
+        double InComeNow(DateTime date);
     }
 }

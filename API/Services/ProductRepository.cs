@@ -131,8 +131,11 @@ namespace API.Services
             return product.Id;
         }
 
-
-
+        public async Task<ProductEntity> GetDtoAsync(Guid id)
+        {
+               var dto =  await _entity.FirstOrDefaultAsync(x => x.Id == id);
+            return dto;
+        }
     }
 
 }

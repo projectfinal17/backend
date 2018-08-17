@@ -98,7 +98,7 @@ namespace API.Services
 
             var userId = (await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User)).Id;
             IQueryable<OrderEntity> oders = _context.Orders.AsNoTracking().Where(w => w.UserId == userId);
-            
+
             if (oders == null)
             {
                 throw new InvalidOperationException("Can not find object with this Id.");
@@ -138,6 +138,21 @@ namespace API.Services
 
             return order.Id;
         }
+
+        public double InComeNow(DateTime date)
+        {
+            var sum = _order.Where(x => x.CreatedDate.Year == date.Year && x.CreatedDate.Month == date.Month)
+                .Sum(x => x.TotalMoney);
+            return sum;
+        }
+
+       
+        //public async Task<> InComeNow(DateTime date)
+        //{
+        //    double sum = await _order.Where(x => x.CreatedDate.Year == date.Year && x.CreatedDate.Month == date.Month)
+        //        .Sum(x => x.TotalMoney);
+        //    //return sum;
+        //}
 
         //new public async Task<Guid> EditAsync(Guid id, ProductForCreationDto productDto)
         //{

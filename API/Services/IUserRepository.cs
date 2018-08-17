@@ -26,6 +26,6 @@ namespace API.Services
 
         Task<Guid> ChangeActiveStatusAsync(Guid id, bool isActive);
 
-
+        Task<Guid> DeleteAsync(Guid id);
     }
 }

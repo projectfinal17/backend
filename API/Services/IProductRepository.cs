@@ -21,5 +21,6 @@ namespace API.Services
         new Task<Guid> EditAsync(Guid id, ProductForCreationDto productCategoryDto);
 
         Task<Guid> ChangeActiveStatusAsync(Guid id, bool isActive);
+        Task<ProductEntity> GetDtoAsync(Guid id);
     }
 }
